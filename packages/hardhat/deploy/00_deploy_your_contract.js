@@ -25,12 +25,21 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     waitConfirmations: 5,
   });
 
+  await deploy("GalaxyCoin", {
+    from:deployer,
+    log:true,
+    waitConfirmations: 5,
+  });
+
+  const galaxyCoin = await ethers.getContract("GalaxyCoin", deployer);
+  await galaxyCoin.transferOwnership(0xEA5A52f732BE2eCD218224f896431660FBa8512D);
+
   // Getting a previously deployed contract
   const YourContract = await ethers.getContract("YourContract", deployer);
   /*  await YourContract.setPurpose("Hello");
-  
-    To take ownership of yourContract using the ownable library uncomment next line and add the 
-    address you want to be the owner. 
+
+    To take ownership of yourContract using the ownable library uncomment next line and add the
+    address you want to be the owner.
     // await yourContract.transferOwnership(YOUR_ADDRESS_HERE);
 
     //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
